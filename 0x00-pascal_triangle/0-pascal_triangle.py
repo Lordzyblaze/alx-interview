@@ -3,19 +3,25 @@
 
 
 def pascal_triangle(n):
+    """returns list of lists of numbers
+    representing the pascal triangle"""
     if n <= 0:
         return []
 
-    # Initialize the first row of the triangle
-    row = [1]
+    pascal_triangle = [0] * n
 
-    # Initialize the triangle with the first row
-    triangle = [row]
+    for i in range(n):
+        # defines a row and fill first and last index with 1
+        new_row = [0] * (i+1)
+        new_row[0] = 1
+        new_row[len(new_row) - 1] = 1
 
-    # Generate the remaining rows of the triangle
-    for i in range(1, n):
-        # Generate the next row by adding adjacent elements of the previous row
-        row = [1] + [row[j] + row[j+1] for j in range(len(row)-1)] + [1]
-        # Append the row to the triangle
-        triangle.append(row)
-    return triangle
+        for j in range(1, i):
+            if j > 0 and j < len(new_row):
+                a = pascal_triangle[i - 1][j]
+                b = pascal_triangle[i - 1][j - 1]
+                new_row[j] = a + b
+
+        pascal_triangle[i] = new_row
+
+    return pascal_triangle
