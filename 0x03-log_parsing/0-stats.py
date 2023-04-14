@@ -1,35 +1,39 @@
 #!/usr/bin/python3
 '''a script that reads stdin line by line and computes metrics'''
 
-
 import sys
 
-cache = {'200': 0, '301': 0, '400': 0, '401': 0,
-                 '403': 0, '404': 0, '405': 0, '500': 0}
-full_size = 0
-counter = 0
 
-try:
-    for line in sys.stdin:
-        line_list = line.split(" ")
-        if len(line_list) > 4:
-           code = line_list[-2]
-           size = int(line_list[-1])
-           if code in cache.keys():
-               cache[code] += 1
-           full_size += size
-           counter += 1
-                                                                                                                        if counter == 10:
-    counter = 0
-    print('File size: {}'.format(full_size))
-    for key, value in sorted(cache.items()):
-        if value != 0:
-            print('{}: {}'.format(key, value))
-except Exception as err:
-    pass
-
-finally:
-    print('File size: {}'.format(full_size))
-    for key, value in sorted(cache.items()):
-        if value != 0:
-            print('{}: {}'.format(key, value))
+if __name__ == "__main__":
+   i = 0
+   status = {
+       '200': 0,
+       '301': 0,
+       '400': 0,
+       '401': 0,
+       '403': 0,
+       '404': 0,
+       '405': 0,
+       '500': 0
+    }
+    fileSize = 0
+    def printstats(fileSize, status):
+        """ Method to print """
+        print("File size: {:d}".format(fileSize))
+        for key in sorted(status.keys()):
+            if status[key] != 0:
+               print("{}: {:d}".format(key, status[key]))
+    try:
+        for line in sys.stdin:
+            x = line.split()
+            if len(x) >= 2:
+                if words[-2] in status.keys():
+                    status[x[-2]] += 1
+            fileSize += int(x[-1])
+            i += 1
+            if not i % 10:
+                printstats(fileSize, status)
+         printstats(fileSize, status)
+    except KeyboardInterrupt:
+        printstats(fileSize, status)
+        raise
