@@ -40,7 +40,7 @@ if __name__ == "__main__":
                 print_stats()
                 count = -1
             count += 1
-                                                                                                                                          except KeyboardInterrupt:
+    except KeyboardInterrupt:
         print_stats()
         raise
     print_stats()
