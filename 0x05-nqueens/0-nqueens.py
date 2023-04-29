@@ -1,41 +1,43 @@
 #!/usr/bin/python3
-""" The N queens puzzles  challenge  """
-import sys
+'''
+Program that solves the N Queens puzzle or challenge
+'''
+from sys import argv, exit
 
+if __name__ == "__main__":
+    if len(argv) != 2:
+        print('Usage: nqueens N')
+        exit(1)
+    try:
+        n = int(argv[1])
+    except BaseException:
+        print('N must be a number')
+        exit(1)
+    if n < 4:
+        print('N must be at least 4')
+        exit(1)
 
-if len(sys.argv) > 2 or len(sys.argv) < 2:
-    print("Usage: nqueens N")
-    exit(1)
+    result = []
 
-if not sys.argv[1].isdigit():
-    print("N must be a number")
-    exit(1)
+    def solve_queens(row, n, result):
+        if (row == n):
+            print(result)
+        else:
+            for col in range(n):
+                placement = [row, col]
+                if valid_placement(result, placement):
+                    result.append(placement)
+                    solve_queens(row + 1, n, result)
+                    result.remove(placement)
 
-if int(sys.argv[1]) < 4:
-    print("N must be at least 4")
-    exit(1)
+    def valid_placement(result, placement):
+        for queen in result:
+            if queen[1] == placement[1]:
+                return False
+            if (queen[0] + queen[1]) == (placement[0] + placement[1]):
+                return False
+            if (queen[0] - queen[1]) == (placement[0] - placement[1]):
+                return False
+        return True
 
-n = int(sys.argv[1])
-
-
-def queens(n, x=0, a=[], b=[], c=[]):
-    """ find possible positions """
-    if x < n:
-        for y in range(n):
-            if y not in a and x + y not in b and x - y not in c:
-                yield from queens(n, x + 1, a + [y], b + [x + y], c + [x - y])
-    else:
-        yield a
-
-def solve(n):
-    """ solve """
-    ad = []
-    x = 0
-    for solution in queens(n, 0):
-        for s in solution:
-            ad.append([i, s])
-            x += 1
-        print(k)
-        ad = []
-        x = 0
-solve(n)
+    solve_queens(0, n, result)
